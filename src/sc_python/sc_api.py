@@ -6,7 +6,7 @@ class ScApi:
     ''' TODO '''
     def __init__(self):
         ''' TODO '''
-        url = os.getenv('SONAR_HOST_URL','http://sonarcloud.io')
+        url = os.getenv('SONAR_HOST_URL','https://sonarcloud.io')
         token = os.getenv('SONAR_TOKEN')
         self._client = SonarQubeClient(sonarqube_url=url, token=token)
 
