@@ -21,9 +21,12 @@ jobs:
         if: steps.cache-poetry.outputs.cache-hit != 'true'
         run: | 
           python -m venv .poetry
-          .poetry/bin/pip --disable-pip-version-check install poetry
+          X/.poetry/bin/pip --disable-pip-version-check install poetry
       - name: Add Poetry to $PATH
-        run: echo "$HOME/.poetry/bin" >> ${GITHUB_PATH}
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - run: | 
+          env
+          poetry --version
       - name: Setup Python
         uses: actions/setup-python@main
         with:
