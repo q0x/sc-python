@@ -1,0 +1,25 @@
+---
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Setup Python
+        uses: actions/setup-python@main
+        with:
+          python-version: "3.12"
+      - name: Setup Poetry
+        run: pip --disable-pip-version-check install poetry
+      - name: Install Dependencies
+        run: poetry install
+      - name: Run Tests
+        run: poetry run python -m pytest --cov --cov-report=xml
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
