@@ -4,19 +4,22 @@ on:
   push:
   pull_request:
 jobs:
-  ci:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@main
+      - name: Setup Poetry
+        run: pipx install poetry
       - name: Setup Python
         uses: actions/setup-python@main
         with:
           python-version: "3.12"
-      - name: Setup Poetry
-        run: pip --disable-pip-version-check install poetry
-      - name: Install Dependencies
-        run: poetry install
+          cache: poetry
+      - run: poetry install
+  ci:
+    runs-on: ubuntu-latest
+    steps:
       - name: Run Tests
         run: poetry run python -m pytest --cov --cov-report=xml
       - name: SonarCloud Scan
