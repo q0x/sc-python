@@ -9,13 +9,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Setup Poetry
-        run: pipx install poetry
       - name: Setup Python
         uses: actions/setup-python@main
         with:
           python-version: "3.12"
           cache: poetry
+      - name: Setup Poetry
+        run: pipx install poetry
       - run: poetry install
       - name: Run Tests
         run: poetry run python -m pytest --cov --cov-report=xml
