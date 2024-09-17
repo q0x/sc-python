@@ -9,13 +9,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
+      # - name: Setup Poetry
+      #   run: pipx install poetry
+      - name: Cache Poetry
+        id: cache-poetry
+        uses: actions/cache@v2
+        with:
+          path: ~/.poetry
+          key: poetry
+      - name: Setup Poetry
+        if: steps.cache-poetry.outputs.cache-hit != 'true'
+        run: | 
+          python -m venv .poetry
+          .poetry/bin/pip --disable-pip-version-check install poetry
+      - name: Add Poetry to $PATH
+        run: echo "$HOME/.poetry/bin" >> ${GITHUB_PATH}
       - name: Setup Python
         uses: actions/setup-python@main
         with:
           python-version: "3.12"
           cache: poetry
-      - name: Setup Poetry
-        run: pipx install poetry
       - run: poetry install
       - name: Run Tests
         run: poetry run python -m pytest --cov --cov-report=xml
