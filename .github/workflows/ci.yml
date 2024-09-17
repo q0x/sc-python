@@ -8,12 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@main
-      # - name: Setup Poetry
-      #   run: pipx install poetry
+        uses: actions/checkout@v4.1.7
       - name: Cache Poetry
         id: cache-poetry
-        uses: actions/cache@v2
+        uses: actions/cache@v4.0.2
         with:
           path: ~/.poetry
           key: poetry
@@ -25,7 +23,7 @@ jobs:
       - name: Add Poetry to $PATH
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Setup Python
-        uses: actions/setup-python@main
+        uses: actions/setup-python@v5.2.0
         with:
           python-version: "3.12"
           cache: poetry
@@ -35,6 +33,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@v3.0.0
         env:
          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
