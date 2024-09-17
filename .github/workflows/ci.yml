@@ -18,6 +18,7 @@ jobs:
           cache: poetry
       - run: poetry install
   ci:
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - name: Run Tests
