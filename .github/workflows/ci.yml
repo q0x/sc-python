@@ -19,6 +19,8 @@ jobs:
       - run: poetry install
       - name: Run Tests
         run: poetry run python -m pytest --cov --cov-report=xml
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
