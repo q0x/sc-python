@@ -10,6 +10,13 @@ class ScApi:
         token = os.getenv('SONAR_TOKEN')
         self._client = SonarQubeClient(sonarqube_url=url, token=token)
 
+    @property
+    def client(self):
+        return self._client
+
     def is_valid(self):
         ''' :return check_credentials '''
-        return self._client.auth.check_credentials()
+        return self.client.auth.check_credentials()
+
+    def get_user_groups(self):
+        return self.client.user_groups.search_all_user_groups()
